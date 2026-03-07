@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Printer } from 'lucide-react';
 import { usePhotos, PhotoData } from '../context/PhotoContext';
@@ -6,6 +6,7 @@ import { usePhotos, PhotoData } from '../context/PhotoContext';
 export default function ReportPage() {
   const { photos, updatePhoto } = usePhotos();
   const navigate = useNavigate();
+  const [companyName, setCompanyName] = useState('公司名稱');
 
   // Chunk photos into groups of 4 for each page
   const pages = [];
@@ -64,12 +65,25 @@ export default function ReportPage() {
             key={pageIndex}
             className="bg-white shadow-lg print:shadow-none w-[297mm] h-[210mm] p-[10mm] mx-auto print:w-full print:h-screen print:mx-0 print:break-after-page relative box-border flex flex-col"
           >
-            <h1 className="text-center text-2xl font-serif font-bold mb-4 tracking-widest border-b-2 border-transparent shrink-0">
-              施工照片
-            </h1>
+            <div className="text-center mb-4 shrink-0 border-b-[0.5px] border-transparent">
+              <input
+                type="text"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                placeholder="請輸入公司名稱"
+                className="w-full text-center font-serif font-bold tracking-widest bg-transparent outline-none hover:bg-gray-50 focus:bg-white transition-colors print:hover:bg-transparent print:bg-transparent"
+                style={{ fontSize: '22px', lineHeight: '22px' }}
+              />
+              <h1 
+                className="font-serif font-bold tracking-widest mt-2"
+                style={{ fontSize: '18px', lineHeight: '18px' }}
+              >
+                施工照片
+              </h1>
+            </div>
             
             {/* 2x2 Grid */}
-            <div className="grid grid-cols-2 grid-rows-2 gap-0 border-2 border-black flex-1">
+            <div className="grid grid-cols-2 grid-rows-2 gap-0 border-[0.5px] border-black flex-1">
               {[0, 1, 2, 3].map((offset) => {
                 const photo = pagePhotos[offset];
                 const photoNumber = pageIndex * 4 + offset + 1;
@@ -78,9 +92,9 @@ export default function ReportPage() {
                   <div 
                     key={offset} 
                     className={`
-                      relative border border-black flex
-                      ${offset % 2 === 0 ? 'border-r-black' : ''}
-                      ${offset < 2 ? 'border-b-black' : ''}
+                      relative flex
+                      ${offset % 2 === 0 ? 'border-r-[0.5px] border-black' : ''}
+                      ${offset < 2 ? 'border-b-[0.5px] border-black' : ''}
                     `}
                   >
                     {photo ? (
@@ -124,7 +138,7 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
   return (
     <div className="flex w-full h-full">
       {/* Photo Area (Left) - ~70% */}
-      <div className="w-[70%] border-r border-black p-2 flex items-center justify-center overflow-hidden bg-gray-50 print:bg-white">
+      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center overflow-hidden bg-gray-50 print:bg-white">
         <img 
           src={photo.url} 
           alt={`Photo ${index}`} 
@@ -135,8 +149,8 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
       {/* Metadata Area (Right) - ~30% */}
       <div className="w-[30%] flex flex-col text-sm">
         {/* Row 1: Number */}
-        <div className="flex border-b border-black h-8">
-          <div className="w-20 border-r border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="flex border-b-[0.5px] border-black h-8">
+          <div className="w-20 border-r-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
             照片編號
           </div>
           <div className="flex-1 flex items-center justify-center font-mono">
@@ -145,8 +159,8 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
         </div>
         
         {/* Row 2: Date */}
-        <div className="flex border-b border-black h-8">
-          <div className="w-20 border-r border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="flex border-b-[0.5px] border-black h-8">
+          <div className="w-20 border-r-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
             拍照日期
           </div>
           <div className="flex-1 flex items-center justify-center">
@@ -161,7 +175,7 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
         </div>
         
         {/* Row 3: Description Label */}
-        <div className="h-8 border-b border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="h-8 border-b-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
           圖片說明
         </div>
         
@@ -182,25 +196,25 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
 function EmptyCell({ index }: { index: number }) {
   return (
     <div className="flex w-full h-full">
-      <div className="w-[70%] border-r border-black p-2 flex items-center justify-center bg-gray-50 print:bg-white">
+      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center bg-gray-50 print:bg-white">
         <span className="text-gray-300">無照片</span>
       </div>
       <div className="w-[30%] flex flex-col text-sm">
-        <div className="flex border-b border-black h-8">
-          <div className="w-20 border-r border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="flex border-b-[0.5px] border-black h-8">
+          <div className="w-20 border-r-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
             照片編號
           </div>
           <div className="flex-1 flex items-center justify-center font-mono">
             {index}.
           </div>
         </div>
-        <div className="flex border-b border-black h-8">
-          <div className="w-20 border-r border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="flex border-b-[0.5px] border-black h-8">
+          <div className="w-20 border-r-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
             拍照日期
           </div>
           <div className="flex-1"></div>
         </div>
-        <div className="h-8 border-b border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="h-8 border-b-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
           圖片說明
         </div>
         <div className="flex-1"></div>
