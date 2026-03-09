@@ -63,7 +63,7 @@ export default function ReportPage() {
         {pages.map((pagePhotos, pageIndex) => (
           <div
             key={pageIndex}
-            className="bg-white shadow-lg print:shadow-none w-[297mm] h-[210mm] p-[10mm] mx-auto print:w-full print:h-screen print:mx-0 print:break-after-page relative box-border flex flex-col"
+            className="bg-white shadow-lg print:shadow-none w-[297mm] h-[210mm] p-[10mm] mx-auto print:w-[297mm] print:h-[210mm] print:mx-0 print:break-after-page relative box-border flex flex-col overflow-hidden"
           >
             <div className="text-center mb-4 shrink-0 border-b-[0.5px] border-transparent">
               <input
@@ -82,8 +82,8 @@ export default function ReportPage() {
               </h1>
             </div>
             
-            {/* 2x2 Grid */}
-            <div className="grid grid-cols-2 grid-rows-2 gap-0 border-[0.5px] border-black flex-1">
+            {/* 2x2 Grid with rigid row constraints */}
+            <div className="grid grid-cols-2 grid-rows-2 gap-0 border-[0.5px] border-black flex-1 min-h-0 overflow-hidden">
               {[0, 1, 2, 3].map((offset) => {
                 const photo = pagePhotos[offset];
                 const photoNumber = pageIndex * 4 + offset + 1;
@@ -136,9 +136,9 @@ export default function ReportPage() {
 
 function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number; onUpdate: (data: Partial<PhotoData>) => void }) {
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-full min-h-0 min-w-0 overflow-hidden">
       {/* Photo Area (Left) - ~70% */}
-      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center overflow-hidden bg-gray-50 print:bg-white">
+      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center overflow-hidden bg-gray-50 print:bg-white min-w-0 min-h-0">
         <img 
           src={photo.url} 
           alt={`Photo ${index}`} 
@@ -147,7 +147,7 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
       </div>
       
       {/* Metadata Area (Right) - ~30% */}
-      <div className="w-[30%] flex flex-col text-sm">
+      <div className="w-[30%] flex flex-col text-sm min-w-0 min-h-0 overflow-hidden">
         {/* Row 1: Number */}
         <div className="flex border-b-[0.5px] border-black h-8">
           <div className="w-20 border-r-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
@@ -195,11 +195,11 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
 
 function EmptyCell({ index }: { index: number }) {
   return (
-    <div className="flex w-full h-full">
-      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center bg-gray-50 print:bg-white">
+    <div className="flex w-full h-full min-h-0 min-w-0 overflow-hidden">
+      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center bg-gray-50 print:bg-white min-w-0 min-h-0">
         <span className="text-gray-300">無照片</span>
       </div>
-      <div className="w-[30%] flex flex-col text-sm">
+      <div className="w-[30%] flex flex-col text-sm min-w-0 min-h-0 overflow-hidden">
         <div className="flex border-b-[0.5px] border-black h-8">
           <div className="w-20 border-r-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
             照片編號
