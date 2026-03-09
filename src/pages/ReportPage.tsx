@@ -83,7 +83,7 @@ export default function ReportPage() {
             </div>
             
             {/* 2x2 Grid with rigid row constraints */}
-            <div className="grid grid-cols-2 grid-rows-2 gap-0 border-[0.5px] border-black flex-1 min-h-0 overflow-hidden">
+            <div className="grid grid-cols-2 grid-rows-[50%_50%] gap-0 border-[0.5px] border-black flex-1 min-h-0 overflow-hidden h-full">
               {[0, 1, 2, 3].map((offset) => {
                 const photo = pagePhotos[offset];
                 const photoNumber = pageIndex * 4 + offset + 1;
@@ -138,11 +138,11 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
   return (
     <div className="flex w-full h-full min-h-0 min-w-0 overflow-hidden">
       {/* Photo Area (Left) - ~70% */}
-      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center overflow-hidden bg-gray-50 print:bg-white min-w-0 min-h-0">
+      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center overflow-hidden bg-gray-50 print:bg-white min-w-0 min-h-0 relative">
         <img 
           src={photo.url} 
           alt={`Photo ${index}`} 
-          className="max-w-full max-h-full object-contain"
+          className="absolute inset-0 m-auto max-w-[calc(100%-1rem)] max-h-[calc(100%-1rem)] object-contain"
         />
       </div>
       
@@ -175,12 +175,12 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
         </div>
         
         {/* Row 3: Description Label */}
-        <div className="h-8 border-b-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="h-8 shrink-0 border-b-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
           圖片說明
         </div>
         
         {/* Row 4: Description Content */}
-        <div className="flex-1 p-2">
+        <div className="flex-1 p-2 min-h-0 overflow-hidden">
           <textarea 
             value={photo.description}
             onChange={(e) => onUpdate({ description: e.target.value })}
@@ -196,7 +196,7 @@ function PhotoCell({ photo, index, onUpdate }: { photo: PhotoData; index: number
 function EmptyCell({ index }: { index: number }) {
   return (
     <div className="flex w-full h-full min-h-0 min-w-0 overflow-hidden">
-      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center bg-gray-50 print:bg-white min-w-0 min-h-0">
+      <div className="w-[70%] border-r-[0.5px] border-black p-2 flex items-center justify-center bg-gray-50 print:bg-white min-w-0 min-h-0 relative">
         <span className="text-gray-300">無照片</span>
       </div>
       <div className="w-[30%] flex flex-col text-sm min-w-0 min-h-0 overflow-hidden">
@@ -214,10 +214,10 @@ function EmptyCell({ index }: { index: number }) {
           </div>
           <div className="flex-1"></div>
         </div>
-        <div className="h-8 border-b-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
+        <div className="h-8 shrink-0 border-b-[0.5px] border-black flex items-center justify-center bg-gray-100 print:bg-transparent font-medium text-xs">
           圖片說明
         </div>
-        <div className="flex-1"></div>
+        <div className="flex-1 min-h-0"></div>
       </div>
     </div>
   );
